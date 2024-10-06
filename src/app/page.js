@@ -7,7 +7,7 @@ import { readFile } from '@/utils/reading.files';
 import react from 'react';
 
 const parseExcelFile = (binaryData) => {
-  const workbook = XLSX.read(binaryData, { type: 'binary' });
+  const workbook = XLSX.read(binaryData, { type: 'binary', cellFormula: true });
   const sheetName = workbook.SheetNames[0];
   const worksheet = workbook.Sheets[sheetName];
   const jsonData = XLSX.utils.sheet_to_json(worksheet);
@@ -46,46 +46,51 @@ export default function Home() {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Exported');
     // XLSX.writeFile(workbook, 'new.xlsx');
 
-    if (!file) {
-      const file = await getFile();
-      setFile(file);
-      const bin = XLSX.write(workbook, {
-        type: 'array',
-        bookType: 'xlsx',
-      });
-
-      console.log('bin');
-      console.log(bin);
-
-      await file.write(bin);
-
-      // close the file and write the contents to disk.
-      // await file.close();
-      return;
-    }
+    const file = await getFile();
 
     const bin = XLSX.write(workbook, {
       type: 'array',
       bookType: 'xlsx',
     });
 
-    console.log('bin');
-    console.log(bin);
+    // console.log('bin');
+    // console.log(bin);
 
-    await file.write(bin);
+    // await file.write(bin);
 
     // close the file and write the contents to disk.
     // await file.close();
+
+    await saveFile(new Blob([bin], { type: 'application/octet-stream' }));
+  }
+
+  async function saveFile(data) {
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+
+    // Create a writable stream
+    const writable = await file.createWritable();
+
+    // Write the new content to the file
+    await writable.write(data);
+
+    // Close the file and save changes
+    await writable.close();
   }
 
   async function getFile() {
     console.log('getFile');
-    // Open file picker and destructure the result the first handle
+    if (file) return file;
+
     const [fileHandle] = await window.showOpenFilePicker();
-    const writableStream = await fileHandle.createWritable();
-    console.log('writableStream');
-    console.log(writableStream);
-    return writableStream;
+    console.log('fileHandle');
+    console.log(fileHandle);
+    setFile(fileHandle);
+
+    // const writableStream = await fileHandle.createWritable();
+    // return writableStream;
   }
 
   return (
