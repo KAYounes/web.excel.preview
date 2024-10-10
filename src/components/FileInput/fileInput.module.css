@@ -4,7 +4,7 @@
   background-color: color-mix(in hsl, var(--background), var(--damp) 5%);
   /* background-color: color-mix(in hsl, var(--background), var(--damp) 25%); */
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 2px;
   border: 1px solid var(--border-color);
   font-weight: 300;
   width: 100%;

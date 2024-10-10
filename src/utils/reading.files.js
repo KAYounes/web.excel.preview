@@ -15,6 +15,6 @@ export const readFile = (file, parser) => {
 
     reader.onerror = (error) => reject(error);
 
-    reader.readAsBinaryString(file); // Read the file as binary
+    reader.readAsArrayBuffer(file); // Read the file as binary
   });
 };

@@ -12,6 +12,8 @@
     "canvas-datagrid": "^0.4.7",
     "next": "14.2.14",
     "react": "^18",
+    "react-data-grid": "^7.0.0-beta.47",
+    "react-datasheet-grid": "^4.11.4",
     "react-dom": "^18",
     "xlsx": "^0.18.5"
   },
