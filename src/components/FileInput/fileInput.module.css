@@ -1,0 +1,23 @@
+.fileInput {
+  --damp: hsl(0deg 0%, 44%);
+  --border-color: color-mix(in hsl, var(--background), var(--damp) 45%);
+  background-color: color-mix(in hsl, var(--background), var(--damp) 25%);
+  background-color: color-mix(in hsl, var(--background), var(--damp) 25%);
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  font-weight: 300;
+  width: 100%;
+}
+
+.fileInput::file-selector-button {
+  font-family: inherit;
+  font-weight: 700;
+  background-color: color-mix(in hsl, var(--background), var(--damp) 15%);
+  border: none;
+  border-radius: none;
+  padding: 0.6em 1em;
+  margin-right: 0.8em;
+
+  border-right: 1px solid var(--border-color);
+}

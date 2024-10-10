@@ -1,1 +1,3 @@
-export function nullCheck(query) {}
+export function nullCheck(query) {
+  return;
+}
