@@ -40,3 +40,45 @@ a {
     color-scheme: dark;
   }
 }
+.table-container {
+  margin: 20px;
+  overflow-x: auto; /* Add horizontal scrolling for smaller screens */
+}
+
+table {
+  width: 100%;
+  border-collapse: separate; /* Use separate borders for better styling */
+  border-spacing: 0; /* Remove default spacing */
+  margin-bottom: 1em;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Softer shadow for depth */
+  background-color: #1e1e1e; /* Dark background for the table */
+  color: #f0f0f0; /* Light text color for readability */
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* Clip the corners */
+  border: 2px solid #444;
+}
+
+th,
+td {
+  padding: 12px 16px; /* Add horizontal padding for better spacing */
+  text-align: center;
+}
+
+tr {
+  transition: background-color 0.4s ease-in-out; /* Smooth transition for hover */
+}
+
+th {
+  background-color: #333; /* Dark gray background for headers */
+  color: #ffffff; /* White text color for headers */
+  font-weight: bold; /* Bold text for headers */
+  border-top: none; /* Remove top border from header cells for cleaner look */
+}
+
+tr:nth-child(even) {
+  background-color: #2a2a2a; /* Slightly lighter dark for alternating rows */
+}
+
+tr:hover {
+  background-color: #444; /* Medium gray background on hover */
+}
