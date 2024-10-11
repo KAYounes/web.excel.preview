@@ -2,22 +2,24 @@
 import FileInput from '@/components/FileInput';
 import { readFile } from '@/utils/reading.files';
 import React from 'react';
+import { read, utils } from 'xlsx';
+import styles from './page.module.css';
 
 export default function Home() {
   const [excel, setExcel] = React.useState();
   const [excelFile, setExcelFile] = React.useState();
+  const [excelHTML, setExcelHTML] = React.useState();
   // const workbook = writeXLSX.read(file);
 
-  async function handleFileChange(event)
-  {
-    const file = event.target.files[0]
+  async function handleFileChange(event) {
+    const file = event.target.files[0];
     // await readFile()
-    console.log(file)
-    console.log(typeof file)
+    console.log(file);
+    console.log(typeof file);
   }
 
-  async function handleFilePicker(event){
-    event.preventDefault()
+  async function handleFilePicker(event) {
+    event.preventDefault();
 
     const [fileHandle] = await window.showOpenFilePicker();
     setExcelFile(fileHandle);
@@ -25,19 +27,19 @@ export default function Home() {
     const file = await fileHandle.getFile();
 
     const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file); 
-    event.target.files = dataTransfer.files; 
+    dataTransfer.items.add(file);
+    event.target.files = dataTransfer.files;
 
-    parseExcelFile(fileHandle.ge)
+    await readFile(file, parseExcelFile);
   }
 
-const parseExcelFile = (binaryData) => {
-  const workbook = XLSX.read(binaryData, { type: 'binary', cellFormula: true });
-  // const sheetName = workbook.SheetNames[0];
-  // const worksheet = workbook.Sheets[sheetName];
-  // const jsonData = XLSX.utils.sheet_to_json(worksheet);
-  // return jsonData; // Return the parsed Excel data as JSON
-};
+  function parseExcelFile(binaryData) {
+    const workbook = read(binaryData, { type: 'binary', cellFormula: true });
+    console.log(workbook);
+    console.log(workbook.Sheets);
+    console.log(workbook.SheetNames);
+    setExcel(workbook);
+  }
 
   return (
     <main
@@ -45,7 +47,13 @@ const parseExcelFile = (binaryData) => {
         margin: '1em',
       }}>
       {/* <FileInput onChange={handleFileChange}/> */}
-      <FileInput onClick={handleFilePicker}/>
+      <FileInput onClick={handleFilePicker} />
+      {excel && (
+        <div
+          className='table-container'
+          dangerouslySetInnerHTML={{ __html: utils.sheet_to_html(excel?.Sheets['Sheet1']) }}
+        />
+      )}
     </main>
   );
 }
