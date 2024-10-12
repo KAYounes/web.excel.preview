@@ -6,17 +6,15 @@ import { read, utils } from 'xlsx';
 import styles from './page.module.css';
 
 export default function Home() {
-  const [excel, setExcel] = React.useState();
+  const [workbook, setWorkbook] = React.useState();
   const [excelFile, setExcelFile] = React.useState();
   const [excelHTML, setExcelHTML] = React.useState();
-  // const workbook = writeXLSX.read(file);
 
-  async function handleFileChange(event) {
-    const file = event.target.files[0];
-    // await readFile()
-    console.log(file);
-    console.log(typeof file);
-  }
+  // async function handleFileChange(event) {
+  //   const file = event.target.files[0];
+  //   console.log(file);
+  //   console.log(typeof file);
+  // }
 
   async function handleFilePicker(event) {
     event.preventDefault();
@@ -34,13 +32,17 @@ export default function Home() {
   }
 
   function parseExcelFile(binaryData) {
-    const workbook = read(binaryData, { type: 'binary', cellFormula: true });
-    console.log(workbook);
-    console.log(workbook.Sheets);
-    console.log(workbook.SheetNames);
-    setExcel(workbook);
+    const _workbook = read(binaryData, { type: 'binary', cellFormula: true });
+    setWorkbook(_workbook);
+    console.log(_workbook);
+    console.log(_workbook.Workbook);
+    console.log(_workbook.SheetNames);
+    console.log(_workbook.Sheets);
+    console.log(_workbook.Sheets[_workbook.SheetNames[0]]);
+    console.log(_workbook.Sheets[_workbook.SheetNames[0]]['A1']);
   }
 
+  function saveExcel() {}
   return (
     <main
       style={{
@@ -48,12 +50,15 @@ export default function Home() {
       }}>
       {/* <FileInput onChange={handleFileChange}/> */}
       <FileInput onClick={handleFilePicker} />
-      {excel && (
+
+      {/* {excel && (
         <div
           className='table-container'
-          dangerouslySetInnerHTML={{ __html: utils.sheet_to_html(excel?.Sheets['Sheet1']) }}
+          dangerouslySetInnerHTML={{ __html: utils.sheet_to_html(excel?.Sheets['Sheet1'], { editable: true }) }}
         />
       )}
+
+      <button onClick={saveExcel}>Save as new.xlsx</button> */}
     </main>
   );
 }
